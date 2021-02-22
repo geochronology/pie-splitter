@@ -1,9 +1,18 @@
 var chance = require("chance").Chance();
+var artist = require("./artist");
 
 // PIE SPLITTER
 // A lib to split a pie into n randomized segments
 // Not being used in production -- purpose is for MirageJS
 // in order to mock results of endpoint
+
+const { demographics } = artist
+// console.log(artist)
+
+
+
+
+
 
 const pieSplitter = (labels, options) => {
   const numOfSlices = Array.isArray(labels) // === "array"
@@ -12,16 +21,15 @@ const pieSplitter = (labels, options) => {
       ? labels
       : 1
 
-  console.log(numOfSlices)
+  console.log('numOfSlices:', numOfSlices)
 
   const { whole = 100 } = options || 100;
   const { floatOrInt = "int" } = options || "int";
-  const { max = whole } = options || 100;
-  const { min = 0 } = options || 0;
-  console.log(max);
+  let { min = 0 } = options || 0;
+  const { max = whole } = (options || 100);
 
   // default value is 100
-  let amount = whole || 100;
+  let amount = (whole || 100);
 
   // use either float or integer slicing depending on options
   const slicer = (numRange) => {
@@ -29,6 +37,7 @@ const pieSplitter = (labels, options) => {
     if (floatOrInt === "int") {
       do {
         num = chance.integer(numRange);
+        // console.log('num: ', num)
       } while (num < min || num > max);
     } else if (floatOrInt === "float") {
       do {
@@ -42,7 +51,7 @@ const pieSplitter = (labels, options) => {
   const handleSlice = (slicesRemaining) => {
     if (slicesRemaining === 1) return amount;
     else {
-      const sizeOfSlice = slicer({ min: 0, max: amount });
+      const sizeOfSlice = slicer({ min: min, max: amount - (min * slicesRemaining) });
       amount -= sizeOfSlice;
       return sizeOfSlice;
     }
@@ -65,7 +74,8 @@ const pieSplitter = (labels, options) => {
   }
 
   // compute the split values
-  const splitValues = shuffleArray(sliceThePie(numOfSlices));
+  // const splitValues = shuffleArray(sliceThePie(numOfSlices));
+  const splitValues = sliceThePie(numOfSlices);
 
   // check if there are labels provided
   if (Array.isArray(labels)) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
@@ -89,9 +99,13 @@ const pieSplitter = (labels, options) => {
 // );
 
 // console.log(pieSplitter(3, { max: 100, min: 25 }));
-
 // console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
-
 // console.log(pieSplitter(["one", "two"]))
 
-console.log(pieSplitter(3))
+for (let [category, value] of Object.entries(demographics)) {
+  // console.log(pieSplitter(Object.values(category)))
+  // console.log(Object.entries(category))
+  // console.log(`${{ category: ${ value }} `)
+  console.log(pieSplitter(value, { min: 10, max: 20 }))
+}
+
