@@ -10,10 +10,6 @@ const { demographics } = artist
 // console.log(artist)
 
 
-
-
-
-
 const pieSplitter = (labels, options) => {
   const numOfSlices = Array.isArray(labels) // === "array"
     ? labels.length
@@ -103,9 +99,8 @@ const pieSplitter = (labels, options) => {
 // console.log(pieSplitter(["one", "two"]))
 
 for (let [category, value] of Object.entries(demographics)) {
-  // console.log(pieSplitter(Object.values(category)))
-  // console.log(Object.entries(category))
-  // console.log(`${{ category: ${ value }} `)
-  console.log(pieSplitter(value, { min: 10, max: 20 }))
+  console.log({
+    [category]: pieSplitter(value, { min: 10, max: 20 })
+  })
 }
 
