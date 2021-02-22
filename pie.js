@@ -5,11 +5,12 @@ var chance = require("chance").Chance();
 // Not being used in production -- purpose is for MirageJS
 // in order to mock results of endpoint
 
-const pieSplitter = (numOfSlices, options, labels) => {
+const pieSplitter = (labels, options) => {
+  const numOfSlices = labels.length
   const { whole = 100 } = options || 100;
   const { floatOrInt = "int" } = options || "int";
-  const { max = whole } = options;
-  const { min = 0 } = options;
+  const { max = whole } = options || 100;
+  const { min = 0 } = options || 0;
   console.log(max);
 
   // default value is 100
@@ -59,8 +60,6 @@ const pieSplitter = (numOfSlices, options, labels) => {
   // compute the split values
   const splitValues = shuffleArray(sliceThePie(numOfSlices));
 
-  console.log(labels)
-
   // check if there are labels provided
   if (labels) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
   else return splitValues
@@ -85,4 +84,4 @@ const pieSplitter = (numOfSlices, options, labels) => {
 
 // console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
 
-console.log(pieSplitter(2, {}, ["one", "two"]))
+console.log(pieSplitter(["one", "two"]))
