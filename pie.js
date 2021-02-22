@@ -6,7 +6,14 @@ var chance = require("chance").Chance();
 // in order to mock results of endpoint
 
 const pieSplitter = (labels, options) => {
-  const numOfSlices = labels.length
+  const numOfSlices = Array.isArray(labels) // === "array"
+    ? labels.length
+    : typeof labels === "number"
+      ? labels
+      : 1
+
+  console.log(numOfSlices)
+
   const { whole = 100 } = options || 100;
   const { floatOrInt = "int" } = options || "int";
   const { max = whole } = options || 100;
@@ -61,7 +68,8 @@ const pieSplitter = (labels, options) => {
   const splitValues = shuffleArray(sliceThePie(numOfSlices));
 
   // check if there are labels provided
-  if (labels) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
+  if (Array.isArray(labels)) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
+  else if (typeof labels === "number") return Array.from(Array(labels), (e, i) => i + 1).reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
   else return splitValues
 };
 
@@ -84,4 +92,6 @@ const pieSplitter = (labels, options) => {
 
 // console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
 
-console.log(pieSplitter(["one", "two"]))
+// console.log(pieSplitter(["one", "two"]))
+
+console.log(pieSplitter(3))
