@@ -1,6 +1,11 @@
 var chance = require("chance").Chance();
 
-const pieSplitter = (numOfSlices, options) => {
+// PIE SPLITTER
+// A lib to split a pie into n randomized segments
+// Not being used in production -- purpose is for MirageJS
+// in order to mock results of endpoint
+
+const pieSplitter = (numOfSlices, options, labels) => {
   const { whole = 100 } = options || 100;
   const { floatOrInt = "int" } = options || "int";
   const { max = whole } = options;
@@ -51,7 +56,14 @@ const pieSplitter = (numOfSlices, options) => {
     return array
   }
 
-  return shuffleArray(sliceThePie(numOfSlices));
+  // compute the split values
+  const splitValues = shuffleArray(sliceThePie(numOfSlices));
+
+  console.log(labels)
+
+  // check if there are labels provided
+  if (labels) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
+  else return splitValues
 };
 
 // SYNTAX
@@ -71,4 +83,6 @@ const pieSplitter = (numOfSlices, options) => {
 
 // console.log(pieSplitter(3, { max: 100, min: 25 }));
 
-console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
+// console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
+
+console.log(pieSplitter(2, {}, ["one", "two"]))
