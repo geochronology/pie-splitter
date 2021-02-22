@@ -75,7 +75,7 @@ const pieSplitter = (labels, options) => {
 
   // check if there are labels provided
   if (Array.isArray(labels)) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
-  else if (typeof labels === "number") return Array.from(Array(labels), (e, i) => i + 1).reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
+  else if (typeof labels === "number") return Array.from(Array(labels)).reduce((arr, key, idx) => ([...arr, splitValues[idx]]), [])
   else return splitValues
 };
 
@@ -94,13 +94,14 @@ const pieSplitter = (labels, options) => {
 //   })
 // );
 
-// console.log(pieSplitter(3, { max: 100, min: 25 }));
+console.log(pieSplitter(3, { min: 20 }));
 // console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
 // console.log(pieSplitter(["one", "two"]))
 
-for (let [category, value] of Object.entries(demographics)) {
-  console.log({
-    [category]: pieSplitter(value, { min: 10, max: 20 })
-  })
-}
+
+// for (let [category, value] of Object.entries(demographics)) {
+//   console.log({
+//     [category]: pieSplitter(value, { min: 10, max: 20 })
+//   })
+// }
 
