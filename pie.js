@@ -3,8 +3,7 @@ var artist = require("./artist");
 
 // PIE SPLITTER
 // A lib to split a pie into n randomized segments
-// Not being used in production -- purpose is for MirageJS
-// in order to mock results of endpoint
+// Not being used in production -- purpose is for MirageJS mocking
 
 const { demographics } = artist
 // console.log(artist)
@@ -71,7 +70,7 @@ const pieSplitter = (labels, options) => {
 
   // compute the split values
   // const splitValues = shuffleArray(sliceThePie(numOfSlices));
-  const splitValues = sliceThePie(numOfSlices);
+  const splitValues = shuffleArray(sliceThePie(numOfSlices));
 
   // check if there are labels provided
   if (Array.isArray(labels)) return labels.reduce((obj, key, idx) => ({ ...obj, [key]: splitValues[idx] }), {})
@@ -94,10 +93,16 @@ const pieSplitter = (labels, options) => {
 //   })
 // );
 
-console.log(pieSplitter(3, { min: 20 }));
+// console.log(pieSplitter(3, { min: 20 }));
 // console.log(pieSplitter(2, { floatOrInt: "float", min: 12 }));
 // console.log(pieSplitter(["one", "two"]))
 
+// console.log(pieSplitter(
+//   ["apple", "orange", "banana"],
+//   { min: 3, max: 10, whole: 20 }
+// ))
+
+console.log(pieSplitter(3))
 
 // for (let [category, value] of Object.entries(demographics)) {
 //   console.log({
