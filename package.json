@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "chance": "^1.1.7"
+    "chance": "^1.1.7",
+    "sugar": "^2.0.6",
+    "sugar-date": "^2.0.6"
   }
 }
