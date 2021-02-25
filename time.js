@@ -1,7 +1,11 @@
 var Sugar = require("sugar");
 var chance = require("chance").Chance();
 
-const timeForge = (times, { startValue, step }) => {
+const timeForge = (times, options) => {
+
+  const { startValue = chance.integer({ min: 0, max: 1000000 }) } = options || chance.integer({ min: 0, max: 1000000 })
+  const { step = { min: -2000, max: 10000 } } = options || 0
+  const { label = "count" } = options || "count"
 
   const { Date } = Sugar
 
@@ -19,7 +23,7 @@ const timeForge = (times, { startValue, step }) => {
     return [
       [
         ...arrOfObj,
-        { date: currentValue, numOfFigs: totalCount, change: prevAcc }
+        { date: currentValue, [label]: totalCount, change: prevAcc }
       ],
       totalCount + acc,
       acc
@@ -30,4 +34,4 @@ const timeForge = (times, { startValue, step }) => {
   return withData[0]
 }
 
-console.log(timeForge(10, { startValue: 1000, step: { min: -20, max: 100 } }))
+console.log(timeForge(10, { startValue: 1000, step: { min: -20, max: 100 }, label: "cheeseSlices" }))
